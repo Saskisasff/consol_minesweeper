@@ -33,9 +33,13 @@ def search(x, y, check):
             return False
         
     if bombs == 0 and (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8) and check == 0:
+        if a[x][y] == '/':
+                flags += 1
         a[x][y] = ' '
     else:
         if (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8) and check == 0:
+            if a[x][y] == '/':
+                flags += 1
             a[x][y] = str(bombs)
     
         
@@ -63,6 +67,7 @@ def field_rendering(a):
                     text += '\033[1;31m' + a[i][j] + '\033[0m'
                 elif a[i][j] == '@':
                     text += '\033[1;30m' + a[i][j] + '\033[0m'
+                
             else:
                 text += '\033[1;32m'+a[i][j]+'\033[0m'
         print(text)
@@ -79,8 +84,9 @@ def checking_cage(coord_x, coord_y, check):
         search(coord_x+1, coord_y+1, check)
                 
 a = np.full((9,9), '#')
-flags = 10
+
 bomb = []
+flags = 10
 begin = 1
 for i in range(10):
     bomb.append((randint(0,8), randint(0,8)))
@@ -96,15 +102,14 @@ while True:
     print(f'Flags: {flags}')
     if flags >0:
         print('Select the mode:\no - grub\ni - to put\n')
-    elif flags == 0:
-        #print('Select the mode:\no - grub\n')
-        for i in range(10):
-            summ = 0
-            if a[bomb[i][0], bomb[i][1]] == '/':
-                summ += 1
-            if summ == 10:
-                print('\033[1;32m YOU WIN! \033[0m')
-                break
+    elif flags <= 0:
+        print('Select the mode:\no - grub\n')
+        if len(bomb) == 0:
+            print('\033[1;32m YOU WIN! \033[0m')
+            break
+        else:
+            print('In some places, the flags are wrong.')
+            continue
     mode = input()
     if mode == 'o':
         print('Enter the x and y coordinates')
@@ -119,9 +124,21 @@ while True:
         if begin == 1:
             if (coord_x, coord_y) in bomb:
                     bomb.pop(bomb.index((coord_x, coord_y)))
-                    bomb.append((randint(0,8), randint(0,8)))
+                    lol = (randint(0,8), randint(0,8))
+                    if lol in bomb:
+                        while lol in bomb:
+                            lol = (randint(0,8), randint(0,8))
+                        bomb.append(lol)
+                        a[bomb[-1][0]][bomb[-1][1]] = '#'
+                    print(bomb)
+            if a[coord_x][coord_y] == '/':
+                flags += 1
             a[coord_x][coord_y] = ' '
             checking_cage(coord_x, coord_y, 0)
+            for i in range(9):
+                for j in range(9):
+                    if a[i][j] == ' ':
+                        checking_cage(i, j, 0)
             field_rendering(a)
             begin = 0
             continue   
@@ -135,8 +152,14 @@ while True:
                 if (coord_x, coord_y) in bomb:
                     print('\033[1;31m GAME OVER \033[0m\n\n')
                     break
+            if a[coord_x][coord_y] == '/':
+                flags += 1
             a[coord_x][coord_y] = ' '
             checking_cage(coord_x, coord_y, 0)
+            for i in range(9):
+                for j in range(9):
+                    if a[i][j] == ' ':
+                        checking_cage(i, j, 0)
             field_rendering(a)
         else:
             if begin == 1:
@@ -155,7 +178,7 @@ while True:
                     break
             search(coord_x, coord_y, 0)
             field_rendering(a)
-    elif mode == 'i':
+    elif mode == 'i' and flags > 0:
         print('Enter the x and y coordinates')
         coord_x = int(input())
         coord_y = int(input())
@@ -165,6 +188,9 @@ while True:
         if coord_x < -9 or coord_y < -9:
             print('The value is too low!')
             continue
+        if a[coord_x][coord_y] != '/':
+            flags -= 1
         a[coord_x][coord_y] = '/'
-        flags -= 1
+        if (coord_x, coord_y) in bomb:
+            bomb.pop(bomb.index((coord_x, coord_y)))
         field_rendering(a)
