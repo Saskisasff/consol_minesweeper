@@ -2,6 +2,7 @@
 import numpy as np
 from random import *
 def search(x, y, check):
+    global flags
     if (x, y) in bomb:
         return 0
     bombs = 0
@@ -33,14 +34,12 @@ def search(x, y, check):
             return False
         
     if bombs == 0 and (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8) and check == 0:
-        if a[x][y] == '/':
-                flags += 1
-        a[x][y] = ' '
+        if a[x][y] != '/':
+            a[x][y] = ' '
     else:
         if (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8) and check == 0:
-            if a[x][y] == '/':
-                flags += 1
-            a[x][y] = str(bombs)
+            if a[x][y] != '/':
+                a[x][y] = str(bombs)
     
         
 def field_rendering(a):
@@ -130,7 +129,6 @@ while True:
                             lol = (randint(0,8), randint(0,8))
                         bomb.append(lol)
                         a[bomb[-1][0]][bomb[-1][1]] = '#'
-                    print(bomb)
             if a[coord_x][coord_y] == '/':
                 flags += 1
             a[coord_x][coord_y] = ' '
