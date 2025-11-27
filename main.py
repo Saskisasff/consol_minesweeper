@@ -28,20 +28,25 @@ def search(x, y):
         bombs += 1
     a[x][y] = bombs     
         
+def field_rendering(a):
+    print('\033[1;31m  0 1 2 3 4 5 6 7 8\033[0m')
+    for i in range(9):
+        text = ''
+        text += '\033[1;31m'+str(i)+'\033[0m'
+        for j in range(9):
+            text += ' '
+            text += '\033[1;32m'+a[i][j]+'\033[0m'
+        print(text)
+        
+        
                 
 a = np.full((9,9), '#')
 bomb = []
 for i in range(randint(4, 6)):
     bomb.append((randint(0,8), randint(0,8)))
-# for i in range(9):
-#     for j in range(9):
-#         if (i, j) in bomb:
-#             a[i][j] = '@'
-# print(bomb)
-print('\033[1;31m MINESWEEPER IN CONSOLE \033[0m')
-print('\033[4;37m by Saskisasff \033[0m')
-print("\033[1;32;40m\n")
-print(a)
+print('\033[1;31m MINESWEEPER IN CONSOLE \033[0m\n\n')
+print('\033[4;37m by Saskisasff \033[0m\n')
+field_rendering(a)
 while True:
     print('Select the mode:\no - grub\ni - to put\n')
     mode = input()
@@ -60,7 +65,7 @@ while True:
         search(coord_x+1, coord_y-1)
         search(coord_x+1, coord_y)
         search(coord_x+1, coord_y+1)
-        print(a)
+        field_rendering(a)
     elif mode == 'i':
         print('Enter the x and y coordinates')
         coord_x = int(input())
