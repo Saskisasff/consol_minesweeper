@@ -38,10 +38,15 @@ for i in range(randint(4, 6)):
 #         if (i, j) in bomb:
 #             a[i][j] = '@'
 # print(bomb)
+print('\033[1;31m MINESWEEPER IN CONSOLE \033[0m')
+print('\033[4;37m by Saskisasff \033[0m')
+print("\033[1;32;40m\n")
 print(a)
 while True:
+    print('Select the mode:\no - grub\ni - to put\n')
     mode = input()
     if mode == 'o':
+        print('Enter the x and y coordinates')
         coord_x = int(input())
         coord_y = int(input())
         if (coord_x, coord_y) in bomb:
@@ -57,6 +62,7 @@ while True:
         search(coord_x+1, coord_y+1)
         print(a)
     elif mode == 'i':
+        print('Enter the x and y coordinates')
         coord_x = int(input())
         coord_y = int(input())
         if (coord_x, coord_y) in bomb:
