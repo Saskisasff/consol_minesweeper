@@ -6,29 +6,31 @@ def search(x, y):
         return "GAME OVER"
     bombs = 0
     #UP
-    if (x-1, y-1) in bomb:
+    if (x-1, y-1) in bomb and (x != 0):
         bombs += 1
-    if (x-1, y) in bomb:
+    if (x-1, y) in bomb and (x != 0):
         bombs += 1
-    if (x-1, y+1) in bomb:
+    if (x-1, y+1) in bomb and (x != 0):
         bombs += 1
     #DOWN
-    if (x+1, y-1) in bomb:
+    if (x+1, y-1) in bomb and (x != 8):
         bombs += 1
-    if (x+1, y) in bomb:
+    if (x+1, y) in bomb and (x != 8):
         bombs += 1
-    if (x+1, y+1) in bomb:
+    if (x+1, y+1) in bomb and (x != 8):
         bombs += 1
     #LEFT
-    if (x, y-1) in bomb:
+    if (x, y-1) in bomb and (y != 0):
         bombs += 1
     #RIGHT
-    if (x, y+1) in bomb:
+    if (x, y+1) in bomb and (y != 8):
         bombs += 1
-    if bombs == 0:
+    if bombs == 0 and (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8):
+        print(x)
         a[x][y] = ' '
     else:
-        a[x][y] = str(bombs)
+        if (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8):
+            a[x][y] = str(bombs)
         
 def field_rendering(a):
     print('\033[1;31m  0 1 2 3 4 5 6 7 8\033[0m')
@@ -59,10 +61,10 @@ bomb = []
 for i in range(10):
     bomb.append((randint(0,8), randint(0,8)))
 
-for i in range(9):
-    for j in range(9):
-        if (i, j) in bomb:
-            a[i][j] = '@'
+# for i in range(9):
+#     for j in range(9):
+#         if (i, j) in bomb:
+#             a[i][j] = '@'
 print('\033[1;31m MINESWEEPER IN CONSOLE \033[0m\n\n')
 print('\033[4;37m by Saskisasff \033[0m\n')
 field_rendering(a)
