@@ -1,7 +1,6 @@
 #pip install numpy
 import numpy as np
 from random import *
-
 def search(x, y):
     if (x, y) in bomb:
         return "GAME OVER"
@@ -9,24 +8,27 @@ def search(x, y):
     #UP
     if (x-1, y-1) in bomb:
         bombs += 1
-    elif (x-1, y) in bomb:
+    if (x-1, y) in bomb:
         bombs += 1
-    elif (x-1, y+1) in bomb:
+    if (x-1, y+1) in bomb:
         bombs += 1
     #DOWN
-    elif (x+1, y-1) in bomb:
+    if (x+1, y-1) in bomb:
         bombs += 1
-    elif (x+1, y) in bomb:
+    if (x+1, y) in bomb:
         bombs += 1
-    elif (x+1, y+1) in bomb:
+    if (x+1, y+1) in bomb:
         bombs += 1
     #LEFT
-    elif (x, y-1) in bomb:
+    if (x, y-1) in bomb:
         bombs += 1
     #RIGHT
-    elif (x, y+1) in bomb:
+    if (x, y+1) in bomb:
         bombs += 1
-    a[x][y] = bombs     
+    if bombs == 0:
+        a[x][y] = ' '
+    else:
+        a[x][y] = str(bombs)
         
 def field_rendering(a):
     print('\033[1;31m  0 1 2 3 4 5 6 7 8\033[0m')
@@ -35,15 +37,32 @@ def field_rendering(a):
         text += '\033[1;31m'+str(i)+'\033[0m'
         for j in range(9):
             text += ' '
-            text += '\033[1;32m'+a[i][j]+'\033[0m'
+            if a[i][j] in ('1', '2', '3', '4', '5'):
+                if a[i][j] == '1':
+                    text += '\033[1;34m' + a[i][j] + '\033[0m'
+                elif a[i][j] == '2':
+                    text += '\033[1;33m' + a[i][j] + '\033[0m'
+                elif a[i][j] == '3':
+                    text += '\033[1;35m' + a[i][j] + '\033[0m'
+                elif a[i][j] == '4':
+                    text += '\033[1;36m' + a[i][j] + '\033[0m'
+                elif a[i][j] == '5':
+                    text += '\033[1;37m' + a[i][j] + '\033[0m'
+            else:
+                text += '\033[1;32m'+a[i][j]+'\033[0m'
         print(text)
         
         
                 
 a = np.full((9,9), '#')
 bomb = []
-for i in range(randint(4, 6)):
+for i in range(10):
     bomb.append((randint(0,8), randint(0,8)))
+
+for i in range(9):
+    for j in range(9):
+        if (i, j) in bomb:
+            a[i][j] = '@'
 print('\033[1;31m MINESWEEPER IN CONSOLE \033[0m\n\n')
 print('\033[4;37m by Saskisasff \033[0m\n')
 field_rendering(a)
@@ -56,7 +75,7 @@ while True:
         coord_y = int(input())
         if (coord_x, coord_y) in bomb:
             bomb.pop(bomb.index((coord_x, coord_y)))
-        a[coord_x][coord_y] = '-'
+        a[coord_x][coord_y] = ' '
         search(coord_x-1, coord_y-1)
         search(coord_x-1, coord_y)
         search(coord_x-1, coord_y+1)
