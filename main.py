@@ -112,8 +112,12 @@ while True:
     mode = input()
     if mode == 'o':
         print('Enter the x and y coordinates')
-        coord_x = int(input())
-        coord_y = int(input())
+        try:
+            coord_x = int(input())
+            coord_y = int(input())
+        except:
+            print('The input of coordinates accepts only numbers!')
+            continue
         if coord_x > 8 or coord_y > 8:
             print('The value is too high!')
             continue
@@ -178,8 +182,12 @@ while True:
             field_rendering(a)
     elif mode == 'i' and flags > 0:
         print('Enter the x and y coordinates')
-        coord_x = int(input())
-        coord_y = int(input())
+        try:
+            coord_x = int(input())
+            coord_y = int(input())
+        except:
+            print('The input of coordinates accepts only numbers!')
+            continue
         if coord_x > 8 or coord_y > 8:
             print('The value is too high!')
             continue
