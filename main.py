@@ -34,7 +34,7 @@ def search(x, y, check):
             return False
         
     if bombs == 0 and (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8) and check == 0:
-        if a[x][y] != '/':
+        if a[x][y] != '/' and a[x][y] not in ('1', '2', '3', '4', '5', '6'):
             a[x][y] = ' '
     else:
         if (x >= 0) and (x <= 8) and (y >= 0) and (y <= 8) and check == 0:
@@ -137,7 +137,7 @@ while True:
                 flags += 1
             a[coord_x][coord_y] = ' '
             checking_cage(coord_x, coord_y, 0)
-            for i in range(5):
+            for i in range(10):
                 for i in range(9):
                     for j in range(9):
                         if a[i][j] == ' ':
@@ -159,7 +159,7 @@ while True:
                 flags += 1
             a[coord_x][coord_y] = ' '
             checking_cage(coord_x, coord_y, 0)
-            for i in range(5):
+            for i in range(10):
                 for i in range(9):
                     for j in range(9):
                         if a[i][j] == ' ':
