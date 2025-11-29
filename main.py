@@ -137,10 +137,11 @@ while True:
                 flags += 1
             a[coord_x][coord_y] = ' '
             checking_cage(coord_x, coord_y, 0)
-            for i in range(9):
-                for j in range(9):
-                    if a[i][j] == ' ':
-                        checking_cage(i, j, 0)
+            for i in range(5):
+                for i in range(9):
+                    for j in range(9):
+                        if a[i][j] == ' ':
+                            checking_cage(i, j, 0)
             field_rendering(a)
             begin = 0
             continue   
@@ -158,10 +159,11 @@ while True:
                 flags += 1
             a[coord_x][coord_y] = ' '
             checking_cage(coord_x, coord_y, 0)
-            for i in range(9):
-                for j in range(9):
-                    if a[i][j] == ' ':
-                        checking_cage(i, j, 0)
+            for i in range(5):
+                for i in range(9):
+                    for j in range(9):
+                        if a[i][j] == ' ':
+                            checking_cage(i, j, 0)
             field_rendering(a)
         else:
             if begin == 1:
